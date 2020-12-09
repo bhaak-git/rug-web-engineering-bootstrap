@@ -14,32 +14,65 @@
             </div>
             <p v-else>Loading...</p>
         </div>
-        <NewUser @added="user => users.push(user)"/>
-        <UserHighlight :user="highlightedUser" :loading="loading.highlight"/>
+        <div>
+            <h3>Create a new user</h3>
+            <form @submit.prevent="submitUser" v-if="!loading.form">
+                <div>
+                    <label for="first_name">
+                        First name
+                    </label>
+                    <input type="text" id="first_name" v-model="form.first_name">
+                </div>
+                <div>
+                    <label for="last_name">
+                        Last name
+                    </label>
+                    <input type="text" id="last_name" v-model="form.last_name">
+                </div>
+                <div>
+                    <label for="email">
+                        Email
+                    </label>
+                    <input type="text" id="email" v-model="form.email">
+                </div>
+                <button type="submit">Create user</button>
+            </form>
+            <p v-else>Loading...</p>
+        </div>
+        <div>
+            <h3>Highlighted user</h3>
+            <span v-if="highlightedUser == null && !loading.highlight">No highlighted user</span>
+            <div v-else-if="!loading.highlight">
+                <div v-for="(field, key) in highlightedUser" :key="field">
+                <span v-if="key !== 'avatar'">
+                    <strong>{{ key }}:</strong> {{ field }}
+                </span>
+                    <span v-else>
+                    <img :src="field">
+                </span>
+                </div>
+            </div>
+            <p v-else>Loading...</p>
+        </div>
     </div>
 </template>
 
 <script>
-  import UserHighlight from "./components/UserHighlight";
-  import NewUser from "./components/NewUser";
-
   export default {
-    components: {
-      UserHighlight,
-      NewUser
-    },
     data() {
       return {
         users: [],
-        form: {},
+        form: null,
         loading: {
           list: false,
+          form: false,
           highlight: false
         },
         highlightedUser: null
       }
     },
     mounted() {
+      this.resetForm();
       this.fetchUsers();
     },
     methods: {
@@ -50,11 +83,25 @@
         this.users = data.data;
         this.loading.list = false;
       },
+      async submitUser() {
+        this.loading.form = true;
+        let {data} = await this.$http.post('users?delay=1', this.form);
+        this.resetForm();
+        this.users.push(data);
+        this.loading.form = false;
+      },
       async highlightUser(userId) {
         this.loading.highlight = true;
         let {data} = await this.$http.get('users/' + userId + '?delay=1');
         this.highlightedUser = data.data;
         this.loading.highlight = false;
+      },
+      resetForm() {
+        this.form = {
+          first_name: null,
+          last_name: null,
+          email: null,
+        };
       }
     }
   }
