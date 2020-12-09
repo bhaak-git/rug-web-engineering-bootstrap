@@ -1,16 +1,17 @@
 <template>
     <div>
         <div>
-            <h1>Lets keep track of users</h1>
             <div v-if="!loading.list">
                 <h3>Here is a list of all the users</h3>
-                <div v-if="users.length > 0">
-                    <div v-for="user in users" :key="user.id">
-                        <button @click="highlightUser(user.id)">
-                            {{ user.first_name }} {{ user.last_name }}
-                        </button>
-                    </div>
-                </div>
+                <table>
+                    <tr v-for="user in users" :key="user.id">
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>
+                            <button @click="highlightUser(user.id)">click here</button>
+                        </td>
+                    </tr>
+                </table>
             </div>
             <p v-else>Loading...</p>
         </div>
@@ -41,13 +42,15 @@
         </div>
         <div>
             <h3>Highlighted user</h3>
+
             <span v-if="highlightedUser == null && !loading.highlight">No highlighted user</span>
+
             <div v-else-if="!loading.highlight">
                 <div v-for="(field, key) in highlightedUser" :key="field">
                 <span v-if="key !== 'avatar'">
                     <strong>{{ key }}:</strong> {{ field }}
                 </span>
-                    <span v-else>
+                <span v-else>
                     <img :src="field">
                 </span>
                 </div>
@@ -106,3 +109,7 @@
     }
   }
 </script>
+
+<style>
+    @import '~bootstrap/dist/css/bootstrap.css';
+</style>
