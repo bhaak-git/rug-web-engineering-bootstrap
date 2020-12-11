@@ -1,21 +1,6 @@
 <template>
   <div>
     <div>
-      <div v-if="!loading.list">
-        <h3>Here is a list of all the users</h3>
-        <table>
-          <tr v-for="user in users" :key="user.id">
-            <td>{{ user.first_name }}</td>
-            <td>{{ user.last_name }}</td>
-            <td>
-              <button @click="highlightUser(user.id)">click here</button>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <p v-else>Loading...</p>
-    </div>
-    <div>
       <h3>Create a new user</h3>
       <form @submit.prevent="submitUser" v-if="!loading.form">
         <div>
@@ -34,6 +19,23 @@
       </form>
       <p v-else>Loading...</p>
     </div>
+
+    <div>
+      <div v-if="!loading.list">
+        <h3>Here is a list of all the users</h3>
+        <table>
+          <tr v-for="user in users" :key="user.id">
+            <td>{{ user.first_name }}</td>
+            <td>{{ user.last_name }}</td>
+            <td>
+              <button @click="highlightUser(user.id)">click here</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p v-else>Loading...</p>
+    </div>
+
     <div>
       <h3>Highlighted user</h3>
 
