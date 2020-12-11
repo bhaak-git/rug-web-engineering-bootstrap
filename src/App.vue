@@ -23,15 +23,11 @@
     <div>
       <div v-if="!loading.list">
         <h3>Here is a list of all the users</h3>
-        <table>
-          <tr v-for="user in users" :key="user.id">
-            <td>{{ user.first_name }}</td>
-            <td>{{ user.last_name }}</td>
-            <td>
-              <button @click="highlightUser(user.id)">click here</button>
-            </td>
-          </tr>
-        </table>
+        <div v-if="users.length > 0">
+          <div v-for="user in users" :key="user.id">
+            <button @click="highlightUser(user.id)">{{ user.first_name }} {{ user.last_name }}</button>
+          </div>
+        </div>
       </div>
       <p v-else>Loading...</p>
     </div>
