@@ -1,4 +1,4 @@
-# web-engineering-tutorial
+# Web Engineering Tutorial
 
 ## Project setup
 ```
