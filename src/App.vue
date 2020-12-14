@@ -37,16 +37,18 @@
 
         <span v-if="highlightedUser == null && !loading.highlight">No user selected</span>
 
-        <div v-else-if="!loading.highlight">
+        <div class="card" v-else-if="!loading.highlight">
           <div v-for="(field, key) in highlightedUser" :key="field">
-            <span v-if="key !== 'avatar'">
-              <strong>{{ key }}:</strong>
-              {{ field }}
-            </span>
-            <span v-else>
-              <img :src="field" />
-            </span>
+            <img :src="field" class="card-img-top" alt="avatar" v-if="key == 'avatar'" />
           </div>
+          <ul class="list-group list-group-flush">
+            <div v-for="(field, key) in highlightedUser" :key="field">
+              <li class="list-group-item" v-if="key !== 'avatar'">
+                <strong>{{ key }}:</strong>
+                {{ field }}
+              </li>
+            </div>
+          </ul>
         </div>
         <p v-else>Loading...</p>
       </div>
