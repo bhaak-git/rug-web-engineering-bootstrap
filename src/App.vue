@@ -1,54 +1,54 @@
 <template>
-  <div>
-    <div>
-      <h3>Create a new user</h3>
-      <form @submit.prevent="submitUser" v-if="!loading.form">
-        <div>
-          <label for="first_name">First name</label>
-          <input type="text" id="first_name" v-model="form.first_name" />
-        </div>
-        <div>
-          <label for="last_name">Last name</label>
-          <input type="text" id="last_name" v-model="form.last_name" />
-        </div>
-        <div>
-          <label for="email">Email</label>
-          <input type="text" id="email" v-model="form.email" />
-        </div>
-        <button type="submit">Create user</button>
-      </form>
-      <p v-else>Loading...</p>
-    </div>
+  <div class="container overflow-hidden">
+    <div class="row g-5 mt-1">
+      <div class="col-md">
+        <h3>Create a new user</h3>
+        <form @submit.prevent="submitUser" v-if="!loading.form">
+          <div>
+            <label for="first_name">First name</label>
+            <input type="text" id="first_name" v-model="form.first_name" />
+          </div>
+          <div>
+            <label for="last_name">Last name</label>
+            <input type="text" id="last_name" v-model="form.last_name" />
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input type="text" id="email" v-model="form.email" />
+          </div>
+          <button type="submit">Create user</button>
+        </form>
+        <p v-else>Loading...</p>
+      </div>
 
-    <div>
-      <div v-if="!loading.list">
-        <h3>Here is a list of all the users</h3>
-        <div v-if="users.length > 0">
-          <div v-for="user in users" :key="user.id">
-            <button @click="highlightUser(user.id)">{{ user.first_name }} {{ user.last_name }}</button>
+      <div class="col-md">
+        <div v-if="!loading.list">
+          <h3>Here is a list of all the users</h3>
+          <div v-if="users.length > 0">
+            <div v-for="user in users" :key="user.id">
+              <button @click="highlightUser(user.id)">{{ user.first_name }} {{ user.last_name }}</button>
+            </div>
           </div>
         </div>
-      </div>
-      <p v-else>Loading...</p>
-    </div>
+        <p v-else>Loading...</p>
 
-    <div>
-      <h3>Highlighted user</h3>
+        <h3>Highlighted user</h3>
 
-      <span v-if="highlightedUser == null && !loading.highlight">No highlighted user</span>
+        <span v-if="highlightedUser == null && !loading.highlight">No highlighted user</span>
 
-      <div v-else-if="!loading.highlight">
-        <div v-for="(field, key) in highlightedUser" :key="field">
-          <span v-if="key !== 'avatar'">
-            <strong>{{ key }}:</strong>
-            {{ field }}
-          </span>
-          <span v-else>
-            <img :src="field" />
-          </span>
+        <div v-else-if="!loading.highlight">
+          <div v-for="(field, key) in highlightedUser" :key="field">
+            <span v-if="key !== 'avatar'">
+              <strong>{{ key }}:</strong>
+              {{ field }}
+            </span>
+            <span v-else>
+              <img :src="field" />
+            </span>
+          </div>
         </div>
+        <p v-else>Loading...</p>
       </div>
-      <p v-else>Loading...</p>
     </div>
   </div>
 </template>
