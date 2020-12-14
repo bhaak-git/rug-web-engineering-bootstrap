@@ -22,19 +22,20 @@
       </div>
 
       <div class="col-md">
-        <div v-if="!loading.list">
-          <h3>Here is a list of all the users</h3>
-          <div v-if="users.length > 0">
-            <div v-for="user in users" :key="user.id">
-              <button @click="highlightUser(user.id)">{{ user.first_name }} {{ user.last_name }}</button>
-            </div>
-          </div>
+        <div class="mb-3" v-if="!loading.list">
+          <h3>Select a user</h3>
+          <select class="form-select" v-if="users.length > 0">
+            <option selected disabled>-</option>
+            <option
+              v-for="user in users"
+              :key="user.id"
+              @click="highlightUser(user.id)"
+            >{{ user.first_name }} {{ user.last_name }}</option>
+          </select>
         </div>
         <p v-else>Loading...</p>
 
-        <h3>Highlighted user</h3>
-
-        <span v-if="highlightedUser == null && !loading.highlight">No highlighted user</span>
+        <span v-if="highlightedUser == null && !loading.highlight">No user selected</span>
 
         <div v-else-if="!loading.highlight">
           <div v-for="(field, key) in highlightedUser" :key="field">
