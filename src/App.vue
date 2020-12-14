@@ -3,7 +3,7 @@
     <div class="row g-5 mt-1">
       <div class="col-md">
         <h3>Create a new user</h3>
-        <form @submit.prevent="submitUser" v-if="!loading.form">
+        <form @submit.prevent="submitUser">
           <div class="mb-3">
             <label for="first_name" class="form-label">First name</label>
             <input type="text" class="form-control" placeholder="John" id="first_name" v-model="form.first_name" />
@@ -16,15 +16,18 @@
             <label for="email" class="form-label">Email address</label>
             <input type="email" class="form-control" placeholder="john.smith@example.com" id="email" v-model="form.email" />
           </div>
-          <button type="submit" class="btn btn-primary">Create user</button>
+          <button type="submit" class="btn btn-primary" v-if="!loading.form">Create user</button>
+          <button type="submit" class="btn btn-primary" disabled v-else>
+            <span class="spinner-border spinner-border-sm" />
+            Loading...
+          </button>
         </form>
-        <p v-else>Loading...</p>
       </div>
 
       <div class="col-md">
-        <div class="mb-3" v-if="!loading.list">
-          <h3>Select a user</h3>
-          <select class="form-select" v-if="users.length > 0">
+        <h3>Select a user</h3>
+        <div class="mb-3">
+          <select class="form-select" v-if="!loading.list">
             <option selected disabled>-</option>
             <option
               v-for="user in users"
@@ -32,8 +35,10 @@
               @click="highlightUser(user.id)"
             >{{ user.first_name }} {{ user.last_name }}</option>
           </select>
+          <select class="form-select" disabled v-else>
+            <option>Loading...</option>
+          </select>
         </div>
-        <p v-else>Loading...</p>
 
         <span v-if="highlightedUser == null && !loading.highlight">No user selected</span>
 
@@ -50,7 +55,11 @@
             </div>
           </ul>
         </div>
-        <p v-else>Loading...</p>
+        <div class="d-flex justify-content-center" v-else>
+          <div class="spinner-border text-primary">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
