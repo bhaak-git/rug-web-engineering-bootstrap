@@ -105,6 +105,10 @@ export default {
 };
 </script>
 
-<!--<style>
+<style>
 @import "~bootstrap/dist/css/bootstrap.css";
-</style>-->
+
+body {
+  background-color: #f5f5f5;
+}
+</style>
